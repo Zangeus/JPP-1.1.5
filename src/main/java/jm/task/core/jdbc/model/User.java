@@ -77,6 +77,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "Пользователь: " + name + lastName + ", " + age;
+        return "Пользователь: " + name + " " + lastName + ", " + age;
     }
 }

@@ -23,7 +23,7 @@ public class UserDaoJDBCImpl implements UserDao {
                       `age` INT NULL,
                       PRIMARY KEY (`id`));""");
         } catch (SQLException e) {
-            Util.getLOGGER().log(Level.INFO, "Произошла ошибка создания таблицы...");
+            Util.getUtilLogger().log(Level.INFO, "Произошла ошибка создания таблицы...");
             throw new RuntimeException(e);
         }
     }
@@ -32,7 +32,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement = getConnection().createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS users");
         } catch (SQLException e) {
-            Util.getLOGGER().log(Level.INFO, "Не удалось удалить таблицу user");
+            Util.getUtilLogger().log(Level.INFO, "Не удалось удалить таблицу user");
             e.printStackTrace();
         }
     }
@@ -46,9 +46,12 @@ public class UserDaoJDBCImpl implements UserDao {
             pStatement.setByte(3, age);
 
             pStatement.executeUpdate();
+            Util.getUtilLogger().log(Level.INFO,
+                    "Пользователь: " + name + " " + lastName + ", " + age +
+                            " был добавлен в таблицу");
 
         } catch (SQLException e) {
-            Util.getLOGGER().log(Level.INFO, "При сохранении пользователя произошла ошибка");
+            Util.getUtilLogger().log(Level.INFO, "При сохранении пользователя произошла ошибка");
             e.printStackTrace();
         }
     }
@@ -59,7 +62,7 @@ public class UserDaoJDBCImpl implements UserDao {
             pStatement.setLong(1, id);
             pStatement.executeUpdate();
         } catch (SQLException e) {
-            Util.getLOGGER().log(Level.INFO, "При удалении пользователя произошла ошибка");
+            Util.getUtilLogger().log(Level.INFO, "При удалении пользователя произошла ошибка");
             e.printStackTrace();
         }
     }
@@ -79,7 +82,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 userList.add(user);
             }
         } catch (SQLException e) {
-            Util.getLOGGER().log(Level.INFO, "При получении списка пользователей произошла ошибка");
+            Util.getUtilLogger().log(Level.INFO, "При получении списка пользователей произошла ошибка");
             e.printStackTrace();
         }
         return userList;
@@ -89,7 +92,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement = getConnection().createStatement()) {
             statement.executeUpdate("DELETE FROM users");
         } catch (SQLException e) {
-            Util.getLOGGER().log(Level.INFO, "При очистке произошла ошибка");
+            Util.getUtilLogger().log(Level.INFO, "При очистке произошла ошибка");
             e.printStackTrace();
         }
     }

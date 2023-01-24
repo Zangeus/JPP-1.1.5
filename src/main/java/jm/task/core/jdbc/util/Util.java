@@ -67,7 +67,7 @@ public class Util {
     }
 
     //OTHER
-    public static Logger getLOGGER() {
+    public static Logger getUtilLogger() {
         return utilLogger;
     }
 }

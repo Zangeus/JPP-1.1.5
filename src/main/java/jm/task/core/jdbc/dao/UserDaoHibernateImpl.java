@@ -27,7 +27,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
             session.getTransaction().commit();
         } catch (Exception e) {
-            Util.getLOGGER().log(Level.INFO, "Произошла ошибка создания таблицы...");
+            Util.getUtilLogger().log(Level.INFO, "Произошла ошибка создания таблицы...");
             throw new RuntimeException(e);
         }
     }
@@ -44,7 +44,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
         } catch (Exception e) {
             System.out.println("---------------------------------------------------");
-            Util.getLOGGER().log(Level.INFO, "Не удалось удалить таблицу user");
+            Util.getUtilLogger().log(Level.INFO, "Не удалось удалить таблицу user");
             System.out.println("---------------------------------------------------");
             throw new RuntimeException(e);
         }
@@ -58,9 +58,9 @@ public class UserDaoHibernateImpl implements UserDao {
             session.persist(new User(name, lastName, age));
             session.getTransaction().commit();
 
-            Util.getLOGGER().log(Level.INFO, name + " был добавлен в базу данных");
+            Util.getUtilLogger().log(Level.INFO, name + " был добавлен в базу данных");
         } catch (Exception e) {
-            Util.getLOGGER().log(Level.INFO, "При сохранении пользователя произошла ошибка");
+            Util.getUtilLogger().log(Level.INFO, "При сохранении пользователя произошла ошибка");
             e.printStackTrace();
         }
     }
@@ -72,11 +72,11 @@ public class UserDaoHibernateImpl implements UserDao {
 
             User user = session.get(User.class, id);
             session.remove(user);
-            Util.getLOGGER().log(Level.INFO, user + " был удален из базы данных");
+            Util.getUtilLogger().log(Level.INFO, user + " был удален из базы данных");
             session.getTransaction().commit();
 
         } catch (Exception e) {
-            Util.getLOGGER().log(Level.INFO, "При удалении пользователя произошла ошибка");
+            Util.getUtilLogger().log(Level.INFO, "При удалении пользователя произошла ошибка");
             e.printStackTrace();
         }
     }
@@ -92,7 +92,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().commit();
 
         } catch (Exception e) {
-            Util.getLOGGER().log(Level.INFO, "При получении списка пользователей произошла ошибка");
+            Util.getUtilLogger().log(Level.INFO, "При получении списка пользователей произошла ошибка");
             e.printStackTrace();
         }
         return users;
@@ -109,7 +109,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().commit();
 
         } catch (Exception e) {
-            Util.getLOGGER().log(Level.INFO, "При очистке произошла ошибка");
+            Util.getUtilLogger().log(Level.INFO, "При очистке произошла ошибка");
             e.printStackTrace();
         }
     }
