@@ -3,14 +3,19 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
 public class UserDaoHibernateImpl implements UserDao {
 
+    public static final String CREATE_TABLE ="""
+                    CREATE TABLE IF NOT EXISTS users (
+                      `id` INT NOT NULL AUTO_INCREMENT,
+                      `name` VARCHAR(45) NOT NULL,
+                      `lastname` VARCHAR(45) NOT NULL,
+                      `age` INT NULL,
+                      PRIMARY KEY (`id`));""";
     public UserDaoHibernateImpl() {
     }
 
@@ -19,15 +24,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = Util.getSessionFactory().openSession()) {
             session.beginTransaction();
 
-            String createTable = """
-                    CREATE TABLE IF NOT EXISTS users (
-                      `id` INT NOT NULL AUTO_INCREMENT,
-                      `name` VARCHAR(45) NOT NULL,
-                      `lastname` VARCHAR(45) NOT NULL,
-                      `age` INT NULL,
-                      PRIMARY KEY (`id`));""";
-
-            session.createNativeQuery(createTable, User.class).executeUpdate();
+            session.createNativeQuery(CREATE_TABLE, User.class).executeUpdate();
 
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -74,7 +71,6 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = Util.getSessionFactory().openSession()) {
             session.beginTransaction();
 
-            String dropTable = "DROP TABLE IF EXISTS users";
             User user = session.get(User.class, id);
             session.remove(user);
             Util.getLOGGER().log(Level.INFO, user + " был удален из базы данных");
@@ -119,3 +115,4 @@ public class UserDaoHibernateImpl implements UserDao {
         }
     }
 }
+

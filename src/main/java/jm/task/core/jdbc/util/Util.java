@@ -20,7 +20,7 @@ public class Util {
     public static final String USERNAME = "root";
     public static final String PASSWORD = "12345678q";
 
-    public static Logger LOGGER = Logger.getLogger(Util.class.getName());
+    public static Logger utilLogger = Logger.getLogger(Util.class.getName());
 
     //JDBC
     public static Connection getConnection() {
@@ -28,27 +28,19 @@ public class Util {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            LOGGER.log(Level.INFO, "Соединение не было установлено");
+            utilLogger.log(Level.INFO, "Соединение не было установлено");
             e.printStackTrace();
         }
         return connection;
     }
 
     //HIBERNATE
-    private static SessionFactory sessionFactory;
+    private static final SessionFactory sessionFactory = buildMySessionFactory();
     private static final String DIALECT = "org.hibernate.dialect.MySQLDialect";
 
     private static SessionFactory buildMySessionFactory() {
         if (sessionFactory != null) return sessionFactory;
         else try {
-            System.out.println("--------------------------------------");
-            System.out.println("Началось создание фабрики");
-            System.out.println("Она имеет следующие параметры");
-            System.out.println("URL: " + URL);
-            System.out.println("USERNAME: " + USERNAME);
-            System.out.println("PASSWORD: " + PASSWORD);
-            System.out.println("DIALECT: " + DIALECT);
-            System.out.println("--------------------------------------");
             Properties settings = new Properties();
             settings.put(Environment.URL, URL);
             settings.put(Environment.USER, USERNAME);
@@ -64,18 +56,18 @@ public class Util {
 
             return metadata.getSessionFactoryBuilder().build();
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING,
+            utilLogger.log(Level.WARNING,
                     "При инициализации SessionFactory произошла ошибка");
             throw e;
         }
     }
 
     public static SessionFactory getSessionFactory() {
-        return buildMySessionFactory();
+        return sessionFactory;
     }
 
     //OTHER
     public static Logger getLOGGER() {
-        return LOGGER;
+        return utilLogger;
     }
 }
